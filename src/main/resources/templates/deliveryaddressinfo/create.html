@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<script th:src="@{/js/external/findAddress.js}"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<div id="addAddressContainer">
+    <form th:action="@{/users/deliveryaddressinfo}" th:object="${deliveryAddressInfoDto}" method="post" name="addAddressForm">
+        <div>
+            <label for="addressName">배송지 이름</label>
+            <input id="addressName" type="text" name="addressName" th:field="*{addressName}" placeholder="배송지 이름"/>
+        </div>
+        <br>
+        <div>
+            <label for="zipcode">우편번호</label>
+            <input id="zipcode" type="text" name="zipcode" th:field="*{zipcode}" placeholder="zipcode" readonly onclick="findAddr()"/>
+            <div class="field-error" th:errors="*{zipcode}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="streetAddr">도로명주소</label>
+            <input id="streetAddr" type="text" name="streetAddr" th:field="*{streetAddr}" placeholder="street address" readonly/>
+            <div class="field-error" th:errors="*{streetAddr}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="detailAddr">상세주소</label>
+            <input id="detailAddr" type="text" name="detailAddr" th:field="*{detailAddr}" placeholder="detail address"/>
+            <div class="field-error" th:errors="*{detailAddr}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="etc">주문시 특이사항</label>
+            <input id="etc" type="text" name="etc" th:field="*{etc}" placeholder="특이사항(선택)"/>
+        </div>
+        <br>
+        <input type="submit" value="배송지 추가"/>
+    </form>
+</div>
+</body>
+</html>

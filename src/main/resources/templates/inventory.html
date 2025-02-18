@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>도서관리</h2>
+<input type="button" onclick="location.href='/admin/inventory/search'" value="도서등록">
+<input type="button" onclick="location.href='/admin'" value="어드민 홈으로">
+<div class="inventoryConatiner">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>제목</th>
+        <th>표지</th>
+        <th>isbn</th>
+        <th>작가</th>
+        <th>출판사</th>
+        <th>번역가</th>
+        <th>정가</th>
+        <th>판매가</th>
+        <th>판매상태</th>
+        <th>재고수량</th>
+      </tr>
+      </thead>
+      <tr th:each="book : ${inventoryForAdminDtoList}">
+        <td>
+          <a th:href="@{/admin/inventory/edit/{inventoryId}(inventoryId=${book.inventoryId})}" th:text="${book.title}"></a>
+        </td>
+        <td> <img th:src="${book.thumbnail}" alt=""></td>
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.authors}"></td>
+        <td th:text="${book.publisher}"></td>
+        <td th:text="${book.translators}"></td>
+        <td th:text="${book.price}"></td>
+        <td th:text="${book.salePrice}"></td>
+        <td th:text="${book.status}"></td>
+        <td th:text="${book.quantity}"></td>
+        <p style="margin: 20px 0;">
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>join</title>
+</head>
+<body>
+<script th:src="@{/js/external/findAddress.js}"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<h2>회원가입 페이지</h2>
+<div th:object="${joinUserDto}">
+  <form th:action="@{/join}" method="post" name="loginForm">
+
+    <div id="emailContainer">
+       <label for="email">이메일</label>
+       <input id="email" type="text" th:field="*{email}" placeholder="id"/>
+          <button type="button" id="checkEmailBtn">중복 확인</button>
+          <button type="button" id="editEmailBtn" style="display: none;">이메일 수정</button>
+      <input type="hidden" id="unDuplicated" name="unDuplicated" value="">
+          <p id="emailCheckResult" style="color: red;"></p>
+    </div>
+
+    <div>
+      <label for="password">패스워드</label>
+      <input id="password" type="password" th:field="*{password}" placeholder="password"/>
+      <div class="field-error" th:errors="*{password}"></div>
+    </div>
+    <br>
+    <div>
+      <label for="confirmPassword">패스워드 확인</label>
+      <input id="confirmPassword" type="password" oninput="checkPasswordMatch()" placeholder="password check"/>
+      <span id="passwordCheckResult" style="color: red;"> </span>
+        <input type="hidden" id="chkPassword" name="chkPassword" value="">
+    </div>
+    <br>
+    <div>
+      <label for="nickname">닉네임 </label>
+      <input id="nickname" type="text" th:field="*{nickname}" placeholder="nickname"/>
+      <div class="field-error" th:errors="*{nickname}"></div>
+    </div>
+    <br>
+  <div>
+    <label for="phone">전화번호</label>
+    <input id="phone" type="text" th:field="*{phone}" placeholder="phone"/>
+    <div class="field-error" th:errors="*{phone}"></div>
+  </div>
+    <br>
+    <div>
+      <label for="zipcode">우편번호 </label>
+      <input id="zipcode" type="text" th:field="*{zipcode}" placeholder="zipcode" readonly onclick="findAddr()"/>
+      <div class="field-error" th:errors="*{zipcode}"></div>
+    </div>
+    <br>
+    <div>
+      <label for="streetAddr">도로명주소</label>
+      <input id="streetAddr" type="text" th:field="*{streetAddr}" placeholder="street address" readonly/>
+      <div class="field-error" th:errors="*{streetAddr}"></div>
+    </div>
+    <br>
+    <div>
+      <label for="detailAddr">상세주소</label>
+      <input id="detailAddr" type="text" th:field="*{detailAddr}" placeholder="detail address"/>
+      <div class="field-error" th:errors="*{detailAddr}"></div>
+    </div>
+    <br>
+    <div>
+      <label for="etc">주문시 특이사항</label>
+      <input id="etc" type="text" th:field="*{etc}" placeholder="특이사항(선택)"/>
+    </div>
+  <br>
+  <input type="submit" value="회원가입"/>
+</form>
+</div>
+  <script src="/js/join/chkSubmit.js"></script>
+  <script src="/js/join/chkEmail.js"></script>
+  <script src="/js/join/chkPassword.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<div id="mypage" th:object="${myPageDto}">
+    <p th:text="|*{nickname} 의 마이페이지|"></p>
+    <p th:text="|이메일 : *{email}|"></p>
+    <p th:text="|전화번호 : *{phone}|"></p>
+    <p th:text="|등급 : *{grade}|"></p>
+    <p th:text="|마일리지 : *{mileage}|"></p>
+</div>
+
+<input type="button" onclick="location.href='/users/edit'" value="개인정보수정">
+<input type="button" onclick="location.href='/users/deliveryaddressinfo'" value="배송지 관리">
+<form id="logoutForm" th:action="@{/logout}" th:method="post">
+    <button id="logoutBtn" type="submit">로그아웃</button>
+</form>
+</body>
+</html>

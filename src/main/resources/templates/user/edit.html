@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <title>Title</title>
+</head>
+<body>
+<h2>개인정보 수정</h2>
+  <div id="mypage" th:object="${myPageDto}">
+    <form th:action="@{/users}" method="post" name="loginForm">
+    <div>
+      <label for="email">이메일</label>
+      <input id="email" type="text" th:field="*{email}" readonly>
+    </div>
+    <div>
+      <label for="phone">전화번호</label>
+      <input id="phone" type="text" th:field="*{phone}" readonly>
+    </div>
+    <div>
+      <label for="nickname">닉네임</label>
+      <input id="nickname" type="text" th:field="*{nickname}">
+      <div th:errors="*{nickname}"></div>
+    </div>
+    <div>
+      <label for="grade">등급</label>
+      <input id="grade" type="text" th:field="*{grade}" readonly>
+    </div>
+    <div>
+      <label for="mileage">마잉ㄹ리지</label>
+      <input id="mileage" type="text" th:field="*{mileage}" readonly>
+    </div>
+      <input type="submit" value="수정">
+      <input type="button" onclick="location.href='/users'" value="취소">
+      <input type="button" id="resigned" value="회원탈퇴">
+    </form>
+  </div>
+<script src="/js/resign/resign.js"></script>
+</body>
+</html>

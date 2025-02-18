@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>책 추가</title>
+</head>
+<body>
+<h2>책 추가</h2>
+
+<div class="addBookContainer">
+    div class="addBookContainer">
+    <form th:action="@{/admin/inventory/add}" th:object="${addInventoryDto}" method="post">
+        <!-- 썸네일 이미지 -->
+        <div>
+            <label for="thumbnail">썸네일</label>
+            <img th:src="*{thumbnail}" alt="책 썸네일" style="width: 100px; height: auto; display: block; margin-bottom: 10px;">
+            <input id="thumbnail" type="text" th:field="*{thumbnail}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 제목 -->
+        <div>
+            <label for="title">제목</label>
+            <input id="title" type="text" th:field="*{title}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 내용 -->
+        <div>
+            <label for="contents">내용</label>
+            <textarea id="contents" th:field="*{contents}" class="readonly" readonly></textarea>
+        </div>
+        <br>
+
+        <!-- URL -->
+        <div>
+            <label for="url">URL</label>
+            <input id="url" type="text" th:field="*{url}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- ISBN -->
+        <div>
+            <label for="isbn">ISBN</label>
+            <input id="isbn" type="text" th:field="*{isbn}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 발행 날짜 -->
+        <div>
+            <label for="datetime">발행일</label>
+            <input id="datetime" type="text" th:field="*{datetime}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 저자 -->
+        <div>
+            <label for="authors">저자</label>
+            <input id="authors" type="text" th:field="*{authors}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 출판사 -->
+        <div>
+            <label for="publisher">출판사</label>
+            <input id="publisher" type="text" th:field="*{publisher}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 번역자 -->
+        <div>
+            <label for="translators">번역자</label>
+            <input id="translators" type="text" th:field="*{translators}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 가격 -->
+        <div>
+            <label for="price">가격</label>
+            <input id="price" type="text" th:field="*{price}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 할인 가격 -->
+        <div>
+            <label for="salePrice">판매 가격</label>
+            <input id="salePrice" type="text" th:field="*{salePrice}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 재고 상태 -->
+        <div>
+            <label for="status">판매 상태</label>
+            <input id="status" type="text" th:field="*{status}" class="readonly" readonly/>
+        </div>
+        <br>
+
+        <!-- 수량 (수정 가능) -->
+        <div>
+            <label for="quantity">수량</label>
+            <input id="quantity" type="number" th:field="*{quantity}" />
+            <div class="field-error" th:errors="*{quantity}"></div>
+        </div>
+        <br>
+        <input type="submit" value="책 추가"/>
+    </form>
+</div>
+</body>
+</html>

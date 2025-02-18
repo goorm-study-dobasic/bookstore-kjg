@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>배송지 목록</h2>
+<input type="button" id="addAddress" value="배송지 추가" onclick="location.href='/users/deliveryaddressinfo/create'">
+<button type="button" onclick="location.href='/users'">홈으로</button>
+
+<p style="margin: 20px 0;">  <!-- 위, 아래 20px 간격 추가 -->
+
+
+<div th:each="address : ${addressList}">
+  <div th:text="${address.addressName}"></div>
+  <div th:text="|우편번호 : ${address.zipcode}|"></div>
+  <div th:text="|도로명 주소 : ${address.streetAddr}|"></div>
+  <div th:text="|상세주소 : ${address.detailAddr}|"></div>
+  <div th:text="|배송 특이사항 : ${address.etc}|"></div>
+    <input type="button" value="수정" th:onclick="|location.href='@{/users/deliveryaddressinfo/edit/{addressName}(addressName=${address.addressName})}'|">
+    <form id="logoutForm" th:action="@{/users/deliveryaddressinfo/delete/{addressName}(addressName=${address.addressName})}" th:method="post">
+        <button id="logoutBtn" type="submit">삭제</button>
+    </form>
+    <p style="margin: 20px 0;">  <!-- 위, 아래 20px 간격 추가 -->
+</div>
+
+
+
+
+</body>
+</html>

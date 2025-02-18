@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>홈 화면</title>
+</head>
+<body>
+<h2>홈 화면</h2>
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:text="${#authentication.principal.nickname} + '님 환영합니다!'"></div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <button id="adminPageBtn" type="button" onclick="location.href='/admin'">관리자페이지</button>
+        </div>
+    <button id="myPageBtn" type="button" onclick="location.href='/users'">마이페이지</button>
+    <br>
+    <form id="logoutForm" th:action="@{/logout}" th:method="post">
+        <button id="logoutBtn" type="submit">로그아웃</button>
+    </form>
+</div>
+<br>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <button id="loginBtn" type="button" onclick="location.href='/login'">로그인</button>
+        <button id="joinBtn" type="button" onclick="location.href='/join'">회원가입</button>
+    </div>
+</body>
+</html>

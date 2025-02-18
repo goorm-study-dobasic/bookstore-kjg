@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>책 상세 페이지</h2>
+<div th:object="${bookSearchResultDto}">
+  <div th:src="*{thumbnail}"></div>
+  <div th:text="*{title}"></div>
+  <div th:text="*{isbn}"></div>
+</div>
+</body>
+</html>

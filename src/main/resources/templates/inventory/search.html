@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .active {
+            color: red !important; /* 글자 색 빨강 */
+            background-color: lightcoral !important; /* 배경색 연한 빨강 */
+            pointer-events: none; /* 클릭 방지 */
+            cursor: default; /* 마우스 커서 기본값으로 변경 */
+        }
+    </style>
+</head>
+
+
+<body>
+<script>
+    function goToPage(page) {
+        const query = document.getElementById("query").value;
+        // window.location.href -> 브라우저 이동
+        window.location.href = `/admin/inventory/search/api?query=${encodeURIComponent(query)}&page=${page}`;
+    }
+</script>
+
+
+<div class="search">
+    <form id="searchForm" th:action="@{/admin/inventory/search/api}" th:object="${searchBookDto}" method="get">
+        <label for="query">검색</label>
+        <input type="text" id="query" th:field="*{query}">
+        <button type="submit">검색</button>
+        <div class="field-error" th:errors="*{query}"></div>
+    </form>
+</div>
+
+<!-- 검색결과 뿌리기 -->
+<div class="result" th:object="${searchResult}">
+    <tr th:each="book : ${searchResult}">
+        <td>
+            <img th:src="${book.thumbnail}" alt="" style="width: 100px; height: auto;">
+        </td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.isbn}"></td>
+       <td>
+           <button id="bookDetailBtn" type="submit" th:onclick="|location.href='@{/admin/inventory/add(isbn=${book.isbn})}'|">상세확인</button>
+       </td>
+        <p style="margin: 20px 0;">
+    </tr>
+</div>
+
+<div class="pagination">
+    <div th:if="${totalPages}">
+        <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
+                             endPage=${((currentPage - 1) / 10) * 10 + 10 > totalPages ? totalPages : (((currentPage - 1) / 10) * 10 + 10)}">
+
+            <button th:if="${endPage > 10}" th:onclick="|goToPage(${startPage - 1})|">이전</button>
+
+            <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                                <button th:text="${i}"
+                                        th:onclick="|goToPage(${i})|"
+                                        th:classappend="${i == currentPage} ? 'active' : ''">
+                                </button>
+                            </span>
+
+            <button th:if="${endPage < totalPages}" th:onclick="|goToPage(${endPage + 1})|">다음</button>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

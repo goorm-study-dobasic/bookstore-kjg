@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>배송지 수정</h2>
+<script th:src="@{/js/external/findAddress.js}"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<div id="addAddressContainer">
+<form id="updateForm" method="post" th:object="${addressDto}" th:action="@{/users/deliveryaddressinfo/edit/{addressName}(addressName=${addressDto.addressName})}">
+  <div>
+    <label for="addressName">배송지 이름 </label>
+    <input id="addressName" type="text" th:field="*{addressName}" placeholder="addressName" />
+    <button type="button" id="checkAddressNameBtn">중복 확인</button>
+    <button type="button" id="editAddressNameBtn" style="display: none;">배송지 수정</button>
+    <input type="hidden" id="unDuplicated" name="unDuplicated" value="false">
+    <p id="addressNameCheckResult" style="color: red;"></p>  </div>
+<br>
+  <div>
+    <label for="zipcode">우편번호 </label>
+    <input id="zipcode" type="text" th:field="*{zipcode}" placeholder="zipcode" readonly onclick="findAddr()"/>
+    <div class="field-error" th:errors="*{zipcode}"></div>
+  </div>
+  <br>
+  <div>
+    <label for="streetAddr">도로명주소</label>
+    <input id="streetAddr" type="text" th:field="*{streetAddr}" placeholder="street address" readonly/>
+    <div class="field-error" th:errors="*{streetAddr}"></div>
+  </div>
+  <br>
+  <div>
+    <label for="detailAddr">상세주소</label>
+    <input id="detailAddr" type="text" th:field="*{detailAddr}" placeholder="detail address"/>
+    <div class="field-error" th:errors="*{detailAddr}"></div>
+  </div>
+  <br>
+  <div>
+    <label for="etc">주문시 특이사항</label>
+    <input id="etc" type="text" th:field="*{etc}" placeholder="특이사항(선택)"/>
+  </div>
+  <input type="submit" value="수정">
+  <button type="button" onclick="location.href='/users/deliveryaddressinfo'">취소</button>
+</form>
+</div>
+<script src="/js/deliveryaddress/chkAddressName.js"></script>
+<script src="/js/deliveryaddress/chkSubmit.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>블랙리스트 등록</h2>
+<form th:action="@{/admin/blacklist/add}" method="post" th:object="${blacklistDto}">
+  <div>
+    <label for="email">유저 아이디</label>
+    <input id="email" type="text" th:field="*{email}" readonly>
+    <div class="field-error" th:errors="*{email}"></div>
+  </div>
+
+  <div>
+    <label for="reason">사유</label>
+    <input id="reason" type="text" th:field="*{reason}">
+    <div class="field-error" th:errors="*{reason}"></div>
+
+  </div>
+
+  <div>
+    <label for="blacklistedBy">등록 관리자</label>
+    <input id="blacklistedBy" type="text" name="blacklistedBy" th:value="${#authentication.principal.nickname}" readonly>
+  </div>
+
+  <input type="submit" value="블랙리스트 등록">
+  <input type="button" onclick="location.href='/admin/users'" value="뒤로가기">
+</form>
+</body>
+</html>
