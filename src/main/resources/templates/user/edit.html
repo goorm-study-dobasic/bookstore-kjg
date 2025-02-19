@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-
   <title>Title</title>
 </head>
 <body>
@@ -29,7 +28,7 @@
       <input id="grade" type="text" th:field="*{grade}" readonly>
     </div>
     <div>
-      <label for="mileage">마잉ㄹ리지</label>
+      <label for="mileage">마일리지</label>
       <input id="mileage" type="text" th:field="*{mileage}" readonly>
     </div>
       <input type="submit" value="수정">

@@ -13,11 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class Inventory {
-
-    public Inventory() {
-        status = InventoryStatus.ON_SALES;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +33,10 @@ public class Inventory {
     private String contents;
     private String url;
     private String isbn;
-
     private LocalDateTime datetime; // 출판일
-
     private String authors;
     private String publisher;
     private String translators;
-
     private int price;
     private int salePrice;
     private String thumbnail;
@@ -67,5 +61,17 @@ public class Inventory {
         this.salePrice = salePrice;
         this.thumbnail = thumbnail;
         this.quantity = Math.max(quantity, 1); // 수량이 1 미만일 경우 1로 설정
+        this.status = InventoryStatus.ON_SALES;
+    }
+
+    @PreUpdate
+    public void updateQuantity() {
+        if (quantity == 0 && status == InventoryStatus.ON_SALES) {
+            // 음수가 들어오거나 품절된 경우 상태 업데이트
+            this.status = InventoryStatus.OOS;
+        } else if (quantity > 0 && status == InventoryStatus.OOS) {
+            // 품절 -> 재고가 들어온 경우 상태 업데이트
+            this.status = InventoryStatus.ON_SALES;
+        }
     }
 }

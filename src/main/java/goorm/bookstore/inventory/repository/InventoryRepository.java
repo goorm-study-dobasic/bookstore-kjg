@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-
     Optional<Inventory> findInventoryByInventoryId(Long id);
-
+    Optional<Inventory> findInventoryByIsbn(String isbn);
 }

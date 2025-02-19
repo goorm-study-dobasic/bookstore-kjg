@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,29 +26,38 @@ public class AdminInventoryService {
 
     public void save(AddInventoryDto addInventoryDto, String username) {
 
-        // addInventoryDto -> Inventory
-        Inventory inventory = Inventory.builder()
-                .isbn(addInventoryDto.getIsbn())
-                .authors(String.join(",", addInventoryDto.getAuthors()))
-                .translators(String.join(",", addInventoryDto.getTranslators()))
-                .price(addInventoryDto.getPrice())
-                .salePrice(addInventoryDto.getSalePrice())
-                .thumbnail(addInventoryDto.getThumbnail())
-                .url(addInventoryDto.getUrl())
-                .createdBy(username)
-                .lastModifiedBy(username)
-                .title(addInventoryDto.getTitle())
-                .contents(addInventoryDto.getContents())
-                .publisher(addInventoryDto.getPublisher())
-                .datetime(addInventoryDto.getDatetime())
-                .quantity(addInventoryDto.getQuantity())
-                .build();
-      inventoryRepository.save(inventory);
-
+        String isbn = addInventoryDto.getIsbn();
+        Inventory findInventory = inventoryRepository.findInventoryByIsbn(isbn).orElse(null);
+        if (findInventory != null) {
+            int quantity = findInventory.getQuantity() + addInventoryDto.getQuantity();
+            findInventory.setQuantity(quantity);
+        } else {
+            // addInventoryDto -> Inventory
+            Inventory inventory = Inventory.builder()
+                    .isbn(isbn)
+                    .authors(String.join(",", addInventoryDto.getAuthors()))
+                    .translators(String.join(",", addInventoryDto.getTranslators()))
+                    .price(addInventoryDto.getPrice())
+                    .salePrice(addInventoryDto.getSalePrice())
+                    .thumbnail(addInventoryDto.getThumbnail())
+                    .url(addInventoryDto.getUrl())
+                    .createdBy(username)
+                    .lastModifiedBy(username)
+                    .title(addInventoryDto.getTitle())
+                    .contents(addInventoryDto.getContents())
+                    .publisher(addInventoryDto.getPublisher())
+                    .datetime(addInventoryDto.getDatetime())
+                    .quantity(addInventoryDto.getQuantity())
+                    .build();
+            inventoryRepository.save(inventory);
+        }
     }
 
-    public void update(UpdateInventoryDto updateInventoryDto) {
-
+    public void update(UpdateInventoryDto updateInventoryDto, String username) {
+        Long inventoryId = updateInventoryDto.getInventoryId();
+        Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(() -> new EntityNotFoundException("해당되는 유저가 없습니다."));
+            inventory.setQuantity(updateInventoryDto.getQuantity());
+            inventory.setStatus(updateInventoryDto.getStatus());
     }
 
     public InventoryForAdminDto findById(Long id) {
@@ -91,5 +99,9 @@ public class AdminInventoryService {
                 .translators(inventory.getTranslators())
                 .build()
         ).toList();
+    }
+
+    public void delete(Long id) {
+        inventoryRepository.deleteById(id);
     }
 }

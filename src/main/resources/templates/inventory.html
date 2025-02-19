@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/inventory.css}">
 </head>
 <body>
-<h2>도서관리</h2>
-<input type="button" onclick="location.href='/admin/inventory/search'" value="도서등록">
-<input type="button" onclick="location.href='/admin'" value="어드민 홈으로">
+<h2>판매도서목록</h2>
+<div class="button-container">
+  <input type="button" onclick="location.href='/admin/inventory/search'" value="도서등록">
+  <input type="button" onclick="location.href='/admin'" value="어드민 홈으로">
+</div>
 <div class="inventoryConatiner">
   <div>
     <table>
@@ -36,7 +39,8 @@
         <td th:text="${book.translators}"></td>
         <td th:text="${book.price}"></td>
         <td th:text="${book.salePrice}"></td>
-        <td th:text="${book.status}"></td>
+        <td th:if="${book.status}" th:text="${book.status.getStatus()}"></td>
+        <td th:unless="${book.status}" th:text="${book.status}"></td>
         <td th:text="${book.quantity}"></td>
         <p style="margin: 20px 0;">
       </tr>

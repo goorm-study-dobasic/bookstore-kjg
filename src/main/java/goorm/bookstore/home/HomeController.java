@@ -42,10 +42,8 @@ public class HomeController {
         if (userDetails != null) {
             model.addAttribute("user", userDetails);
         }
-
-        // List<InventoryForUserDto> all = userInventoryService.findAll();
-
-
+        List<InventoryForUserDto> inventoryForUserDtoList = userInventoryService.findAll();
+        model.addAttribute("inventoryForUserDtoList", inventoryForUserDtoList);
         return "index";
     }
 

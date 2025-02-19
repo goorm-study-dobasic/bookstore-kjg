@@ -7,30 +7,27 @@ import goorm.bookstore.inventory.domain.InventoryStatus;
 import goorm.bookstore.inventory.dto.AddInventoryDto;
 import goorm.bookstore.inventory.dto.InventoryForAdminDto;
 import goorm.bookstore.inventory.dto.SearchBookDto;
+import goorm.bookstore.inventory.dto.UpdateInventoryDto;
 import goorm.bookstore.inventory.service.AdminInventoryService;
 import goorm.bookstore.user.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.thymeleaf.expression.Lists;
-
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -167,21 +164,50 @@ public class AdminInventoryController {
             return "inventory/addForm";
         }
 
-        // 인벤토리 디비에 추가
+        // 없다면 추가.
         adminInventoryService.save(addInventoryDto,userDetails.getUsername());
 
         return "redirect:/admin/inventory";
     }
 
 
-    @GetMapping("/admin/inventory/edit/{inventoryId}")
+    @GetMapping("/edit/{inventoryId}")
     public String editPage(@PathVariable("inventoryId") Long inventoryId, Model model) {
-        System.out.println(inventoryId);
-
         InventoryForAdminDto inventoryForAdminDto = adminInventoryService.findById(inventoryId);
 
+        UpdateInventoryDto updateInventoryDto = UpdateInventoryDto.builder()
+                .inventoryId(inventoryForAdminDto.getInventoryId())
+                .status(inventoryForAdminDto.getStatus())
+                .quantity(inventoryForAdminDto.getQuantity()).build();
+
         model.addAttribute("inventoryForAdminDto", inventoryForAdminDto);
+        model.addAttribute("updateInventoryDto", updateInventoryDto);
         return "inventory/editForm";
+    }
+
+
+    @PostMapping("/edit")
+    public String editProcess(@Validated @ModelAttribute UpdateInventoryDto updateInventoryDto,
+                              BindingResult bindingResult,
+                              @AuthenticationPrincipal CustomUserDetails userDetails,
+                              RedirectAttributes redirectAttributes,
+                              Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("inventoryForAdminDto", adminInventoryService.findById(updateInventoryDto.getInventoryId()));
+            return "inventory/editForm";
+        }
+
+        // 수정
+        adminInventoryService.update(updateInventoryDto, userDetails.getUsername());
+        redirectAttributes.addAttribute("inventoryId", updateInventoryDto.getInventoryId());
+        return "redirect:/admin/inventory/edit/{inventoryId}";
+    }
+
+    @PostMapping("/delete/{inventoryId}")
+    public String deleteProcess(@PathVariable("inventoryId") Long id) {
+        adminInventoryService.delete(id);
+        return "redirect:/admin/inventory";
     }
 
     private static String getIsbn(String isbn) {

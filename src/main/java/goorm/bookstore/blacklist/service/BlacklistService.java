@@ -27,6 +27,8 @@ public class BlacklistService {
         this.blacklistRepository = blacklistRepository;
     }
 
+    // ㅋㅋ
+
     // 블랙리스트 등록 + 유저 상태 Y -> N 변경.
     public void save(BlacklistDto blacklistDto) {
 

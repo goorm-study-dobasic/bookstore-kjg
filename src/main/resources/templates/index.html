@@ -17,10 +17,49 @@
         <button id="logoutBtn" type="submit">로그아웃</button>
     </form>
 </div>
-<br>
+
 <div th:unless="${#authorization.expression('isAuthenticated()')}">
     <button id="loginBtn" type="button" onclick="location.href='/login'">로그인</button>
-        <button id="joinBtn" type="button" onclick="location.href='/join'">회원가입</button>
+    <button id="joinBtn" type="button" onclick="location.href='/join'">회원가입</button>
+</div>
+<br>
+<div class="search">
+    <form id="searchForm" th:action="@{/admin/inventory/search/api}" method="get">
+        <label for="query">책 검색</label>
+        <input type="text" id="query">
+        <button type="submit">검색</button>
+    </form>
+</div>
+
+<div th:if="${inventoryForUserDtoList}">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>표지</th>
+                <th>isbn</th>
+                <th>작가</th>
+                <th>출판사</th>
+                <th>판매가</th>
+                <th>판매상태</th>
+            </tr>
+            </thead>
+            <tr th:each="book : ${inventoryForUserDtoList}">
+                <td>
+                    <a th:href="@{/admin/inventory/edit/{inventoryId}(inventoryId=${book.inventoryId})}" th:text="${book.title}"></a>
+                </td>
+                <td> <img th:src="${book.thumbnail}" alt=""></td>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${book.authors}"></td>
+                <td th:text="${book.publisher}"></td>
+                <td th:text="${book.salePrice}"></td>
+                <td th:if="${book.status}" th:text="${book.status.getStatus()}"></td>
+                <td th:unless="${book.status}" th:text="${book.status}"></td>
+                <p style="margin: 20px 0;">
+            </tr>
+        </table>
     </div>
+</div>
 </body>
 </html>

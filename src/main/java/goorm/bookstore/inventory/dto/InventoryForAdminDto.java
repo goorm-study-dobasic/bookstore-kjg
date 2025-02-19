@@ -1,16 +1,14 @@
 package goorm.bookstore.inventory.dto;
 
 import goorm.bookstore.inventory.domain.InventoryStatus;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class InventoryForAdminDto {
 
     private Long inventoryId;
