@@ -18,7 +18,7 @@ import java.util.ArrayList;
 @SpringBootTest
 public class DaumBookApiTest {
 
-    private static final String API_KEY = "e0b415dd4c54c47b8b91b3f0e643c76e";
+    private static final String API_KEY = "";
     private static final String SEARCH_BOOK_URL = "https://dapi.kakao.com/v3/search/book";
     private static final String query = "jpa";
     @Test
