@@ -13,18 +13,19 @@ import java.time.LocalDateTime;
 @Entity
 @Table(
         name = "DeliveryAddressInfo",
-        uniqueConstraints = @UniqueConstraint(name = "user_seq to addressName", columnNames = {"user_seq", "addressName"})
+        uniqueConstraints = @UniqueConstraint(name = "user_seq to addressName", columnNames = {"user_id", "addressName"})
 )
 @NoArgsConstructor
 public class DeliveryAddressInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deliveryAddressInfoSeq;
+    @Column(name = "delivery_address_info_id")
+    private Long id;
 
     // 유저가 들어있어서 유저도 조회해야함. 유저 조회가 필요할 때 조인 쿼리가 나가야 함.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_seq")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(nullable = false)

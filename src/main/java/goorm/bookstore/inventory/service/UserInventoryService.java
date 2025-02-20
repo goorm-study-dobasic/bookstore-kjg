@@ -23,7 +23,7 @@ public class UserInventoryService {
     public List<InventoryForUserDto> findAll() {
 
         return inventoryRepository.findAll().stream().map(inventory -> InventoryForUserDto.builder()
-                .inventoryId(inventory.getInventoryId())
+                .inventoryId(inventory.getId())
                 .isbn(inventory.getIsbn())
                 .title(inventory.getTitle())
                 .authors(inventory.getAuthors())

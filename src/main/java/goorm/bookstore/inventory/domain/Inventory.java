@@ -18,7 +18,8 @@ public class Inventory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inventoryId;
+    @Column(name = "inventory_id")
+    private Long id;
 
     @CreatedDate
     @Column(updatable = false)

@@ -64,7 +64,7 @@ public class AdminInventoryService {
         Inventory findInventory = inventoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당되는 도서가 없습니다."));
 
         return InventoryForAdminDto.builder()
-                .inventoryId(findInventory.getInventoryId())
+                .inventoryId(findInventory.getId())
                 .title(findInventory.getTitle())
                 .isbn(findInventory.getIsbn())
                 .authors(findInventory.getAuthors())
@@ -84,7 +84,7 @@ public class AdminInventoryService {
     public List<InventoryForAdminDto> findAll() {
 
         return inventoryRepository.findAll().stream().map(inventory -> InventoryForAdminDto.builder()
-                .inventoryId(inventory.getInventoryId())
+                .inventoryId(inventory.getId())
                 .title(inventory.getTitle())
                 .isbn(inventory.getIsbn())
                 .authors(inventory.getAuthors())

@@ -14,10 +14,11 @@ public class Blacklist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long blacklistSeq;
+    @Column(name = "blacklist_id")
+    private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_seq")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String reason;
