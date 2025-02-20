@@ -23,7 +23,7 @@ public class Cart {
     // 일대일 관계
     // 일대일 관계는 그 반대도 일대일
     // 외래키에 데이터베이스 유니크 제약조건 추가.
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventory_id")
     private Inventory inventory; // 책이다 책
 
