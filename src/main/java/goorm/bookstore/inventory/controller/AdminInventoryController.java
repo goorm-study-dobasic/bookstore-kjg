@@ -239,7 +239,8 @@ public class AdminInventoryController {
                 .authors(jsonToStringArray(jsonNode, "authors"))
                 .translators(jsonToStringArray(jsonNode, "translators"))
                 .price(jsonToInt(jsonNode, "price"))
-                .salePrice(jsonToInt(jsonNode, "sale_price"))
+                .salePrice(jsonToInt(jsonNode, "sale_price")
+                        == -1 ? jsonToInt(jsonNode, "price") : jsonToInt(jsonNode, "sale_price"))
                 .status(InventoryStatus.fromString(jsonNode.path("status").asText())).build();
     }
 
