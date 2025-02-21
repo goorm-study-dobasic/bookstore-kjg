@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>책 상세페이지</title>
+</head>
+<body>
+<h2>책 상세페이지</h2>
+
+<div class="bookDetails", th:object="${inventoryForUserDto}">
+  <input type="hidden" id="inventoryId" th:value="*{inventoryId}">
+
+
+  <!-- 썸네일 이미지 -->
+  <div>
+    <strong>썸네일:</strong>
+    <br>
+    <img th:src="*{thumbnail}" alt="책 썸네일" style="width: 100px; height: auto; display: block; margin-bottom: 10px;">
+  </div>
+  <br>
+
+  <!-- 제목 -->
+  <div>
+    <strong>제목:</strong> <span th:text="*{title}"></span>
+  </div>
+  <br>
+
+  <!-- 내용 -->
+  <div>
+    <strong>내용:</strong>
+    <p th:text="*{contents}"></p>
+  </div>
+  <br>
+
+  <!-- 발행 날짜 -->
+  <div>
+    <strong>출판일:</strong> <span th:text="*{dateTime}"></span>
+  </div>
+  <br>
+
+  <!-- 저자 -->
+  <div>
+    <strong>저자:</strong> <span th:text="*{authors}"></span>
+  </div>
+  <br>
+
+  <!-- 출판사 -->
+  <div>
+    <strong>출판사:</strong> <span th:text="*{publisher}"></span>
+  </div>
+  <br>
+
+  <!-- 번역자 -->
+  <div>
+    <strong>번역자:</strong> <span th:text="*{translators}"></span>
+  </div>
+  <br>
+
+  <!-- 판매 가격 -->
+  <div>
+    <strong>판매 가격:</strong> <span th:text="*{salePrice}"></span>
+  </div>
+  <br>
+
+  <!-- 재고 상태 -->
+  <div>
+    <strong>판매 상태:</strong> <span th:text="*{status.getStatus()}"></span>
+  </div>
+  <br>
+
+  <div>
+    <strong>재고수량:</strong> <span id="availableQuantity"></span>
+  </div>
+
+  <!-- 수량 입력 및 구매 폼 -->
+  <form th:action="@{/admin/inventory/add}" th:object="${inventoryForUserDto}" method="post">
+    <div>
+      <label for="quantity"><strong>구매 수량:</strong></label>
+      <input id="quantity" type="number" name="quantity" value="1" min="1" required />
+    </div>
+    <br>
+    <input id="purchaseBtn" type="submit" value="구매하기"/>
+  </form>
+  <button id="test" type="button">테스트버튼</button>
+  <button id="cart" type="button" onclick="location.href='/login'">장바구니에 담기</button>
+  <button id="back" type="button" onclick="location.href='/login'">뒤로가기</button>
+
+
+  <script>
+    var stock = document.getElementById("availableQuantity");
+    var order = document.getElementById("quantity");
+    var inventoryId = document.getElementById("inventoryId").value;
+
+   // 페이지 로딩 시 api 호출해서 정보 가져오기
+   async function updateStock() {
+     fetch(`/api/inventory/stock?inventoryId=${inventoryId}`, {
+       method: 'GET',
+       headers: {
+         'Content-Type': 'application/json'
+       }
+    })
+       .then(response => response.json())
+       .then(data => {
+         stock.textContent = data.quantity;
+       });
+   }
+
+
+
+   // 페이지 로딩 시 재고 갱신
+    document.addEventListener("DOMContentLoaded", updateStock);
+
+/*    document.getElementById("test").addEventListener("click", async function () {
+      await updateStock();
+      var stockInt = parseInt(stock.textContent);
+      var orderInt = parseInt(order.value);
+
+      if (stockInt < orderInt) {
+        alert("재고가 부족합니다.")
+        return;
+      }
+
+      if (stockInt === orderInt) {
+        alert("딱맞네")
+        return;
+      }
+
+      if (stockInt > orderInt) {
+        alert("주문가능")
+      }
+    });*/
+
+    document.querySelector("form").addEventListener("submit", async function (event) {
+      // 폼 제출 시 일단 막음.
+      event.preventDefault();
+
+      // 최신 데이터를 가져올 때 까지 기다려야 함.
+      await updateStock();
+
+      var stockInt = parseInt(stock.textContent);
+      var orderInt = parseInt(order.value);
+
+      if (orderInt > stockInt) {
+        alert("주문 수량이 재고보다 많습니다.");
+        return;
+      }
+      event.target.submit();
+    });
+
+
+   // 버튼 클릭 시 api 호출해서 정보 갱신하기
+  </script>
+</div>
+</body>
+</html>

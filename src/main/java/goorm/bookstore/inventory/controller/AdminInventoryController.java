@@ -27,8 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin/inventory")
@@ -208,6 +207,14 @@ public class AdminInventoryController {
     public String deleteProcess(@PathVariable("inventoryId") Long id) {
         adminInventoryService.delete(id);
         return "redirect:/admin/inventory";
+    }
+
+    @GetMapping("/api/inventory/stock")
+    @ResponseBody
+    public ResponseEntity<Map<String, Integer>> returnStockAPI(@RequestParam("inventoryId") Long id) {
+        int quantity = adminInventoryService.findById(id).getQuantity();
+        Map<String, Integer> response = Collections.singletonMap("quantity", quantity);
+        return ResponseEntity.ok(response);
     }
 
     private static String getIsbn(String isbn) {

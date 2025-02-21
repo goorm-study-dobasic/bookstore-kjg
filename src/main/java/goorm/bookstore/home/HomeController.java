@@ -96,6 +96,16 @@ public class HomeController {
         return "login";
     }
 
+    // 책 상세 페이지
+    @GetMapping("/books/product/{inventoryId}")
+    public String productPage(@PathVariable("inventoryId") Long inventoryId, Model model) {
+
+        InventoryForUserDto inventoryForUserDto = userInventoryService.find(inventoryId);
+
+        model.addAttribute("inventoryForUserDto", inventoryForUserDto);
+        return "inventory/product";
+    }
+
     /*@PostMapping("/loginProc")
     public String loginProcess(@Validated @ModelAttribute LoginUserDto loginUserDto, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {

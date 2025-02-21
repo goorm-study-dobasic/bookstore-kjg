@@ -17,4 +17,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     // 이미 유저가 장바구니 담은 상품인지 체크
     boolean existsByUserAndInventory(User user, Inventory inventory);
+
+    List<Cart> findByUserAndInventory(User user, Inventory inventory);
 }

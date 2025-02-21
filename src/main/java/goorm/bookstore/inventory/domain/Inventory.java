@@ -1,5 +1,6 @@
 package goorm.bookstore.inventory.domain;
 
+import goorm.bookstore.inventory.dto.InventoryForUserDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -74,5 +75,21 @@ public class Inventory {
             // 품절 -> 재고가 들어온 경우 상태 업데이트
             this.status = InventoryStatus.ON_SALES;
         }
+    }
+
+    public static InventoryForUserDto getInventoryUserDto(Inventory inventory) {
+        return InventoryForUserDto.builder()
+                .inventoryId(inventory.getId())
+                .title(inventory.getTitle())
+                .authors(inventory.getAuthors())
+                .publisher(inventory.getPublisher())
+                .translators(inventory.getTranslators())
+                .salePrice(inventory.getSalePrice())
+                .thumbnail(inventory.getThumbnail())
+                .contents(inventory.getContents())
+                .status(inventory.getStatus())
+                .quantity(inventory.getQuantity())
+                .dateTime(inventory.getDatetime())
+                .build();
     }
 }

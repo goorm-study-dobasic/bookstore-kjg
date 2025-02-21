@@ -38,7 +38,6 @@
             <tr>
                 <th>제목</th>
                 <th>표지</th>
-                <th>isbn</th>
                 <th>작가</th>
                 <th>출판사</th>
                 <th>판매가</th>
@@ -47,10 +46,9 @@
             </thead>
             <tr th:each="book : ${inventoryForUserDtoList}">
                 <td>
-                    <a th:href="@{/admin/inventory/edit/{inventoryId}(inventoryId=${book.inventoryId})}" th:text="${book.title}"></a>
+                    <a th:href="@{/books/product/{inventoryId}(inventoryId=${book.inventoryId})}" th:text="${book.title}"></a>
                 </td>
                 <td> <img th:src="${book.thumbnail}" alt=""></td>
-                <td th:text="${book.isbn}"></td>
                 <td th:text="${book.authors}"></td>
                 <td th:text="${book.publisher}"></td>
                 <td th:text="${book.salePrice}"></td>
