@@ -11,25 +11,33 @@
   <table>
     <thead>
     <tr>
+      <th>구매여부</th>
       <th>표지</th>
       <th>제목</th>
       <th>수량</th>
     </tr>
     </thead>
     <tr th:each="cartDto : ${cartDtoList}">
+      <td>
+        <div class="form-check">
+          <label for="checked"></label>
+          <input type="checkbox" id="checked" name="checked">
+        </div>
+      </td>
       <td> <img th:src="${cartDto.inventoryForUserDto.thumbnail}" alt=""></td>
       <td th:text="${cartDto.inventoryForUserDto.title}"></td>
       <td th:text="${cartDto.quantity}"></td>
 
       <td>
-      <form id="changeItem" th:action="@{/users/carts/edit}" th:method="post">
-        <button id="changeBtn" type="submit">옵션 변경</button>
+      <form th:action="@{/users/carts/edit}" th:method="post">
+        <button type="submit">옵션 변경</button>
       </form>
       </td>
 
       <td>
-      <form id="deleteItem" th:action="@{/users/carts/delete}" th:method="post">
-        <button id="deleteBtn" type="submit">장바구니에서 제거</button>
+      <form th:action="@{/users/carts/delete}" th:method="post">
+        <input type="hidden" name="cartId" th:value="${cartDto.cartId}">
+        <button type="submit">장바구니에서 제거</button>
       </form>
       </td>
       <p style="margin: 20px 0;">

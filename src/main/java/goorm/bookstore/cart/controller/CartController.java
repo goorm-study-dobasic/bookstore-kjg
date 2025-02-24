@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,12 @@ public class CartController {
     @PostMapping("/add")
     public String addCartProcess(@ModelAttribute @Valid AddCartDto addCartDto) {
         cartService.save(addCartDto);
+        return "redirect:/users/carts";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProcess(@RequestParam("cartId") Long cartId) {
+        cartService.deleteById(cartId);
         return "redirect:/users/carts";
     }
 }
