@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+</head>
+<body>
+<h2>장바구니</h2>
+<div class="cartContainer">
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>표지</th>
+      <th>제목</th>
+      <th>수량</th>
+    </tr>
+    </thead>
+    <tr th:each="cartDto : ${cartDtoList}">
+      <td> <img th:src="${cartDto.inventoryForUserDto.thumbnail}" alt=""></td>
+      <td th:text="${cartDto.inventoryForUserDto.title}"></td>
+      <td th:text="${cartDto.quantity}"></td>
+
+      <td>
+      <form id="changeItem" th:action="@{/users/carts/edit}" th:method="post">
+        <button id="changeBtn" type="submit">옵션 변경</button>
+      </form>
+      </td>
+
+      <td>
+      <form id="deleteItem" th:action="@{/users/carts/delete}" th:method="post">
+        <button id="deleteBtn" type="submit">장바구니에서 제거</button>
+      </form>
+      </td>
+      <p style="margin: 20px 0;">
+    </tr>
+  </table>
+</div>
+</div>
+</body>
+</html>

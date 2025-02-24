@@ -1,11 +1,17 @@
 package goorm.bookstore.cart.dto;
 
-import goorm.bookstore.inventory.domain.Inventory;
-import goorm.bookstore.user.domain.User;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AddCartDto {
 
-    private User user;
-    private Inventory inventory;
+    private String email;
+
+    private Long inventoryId;
+
     private int quantity;
+
 }

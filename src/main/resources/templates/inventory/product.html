@@ -8,10 +8,14 @@
 <h2>책 상세페이지</h2>
 
 <div class="bookDetails", th:object="${inventoryForUserDto}">
-  <input type="hidden" id="inventoryId" th:value="*{inventoryId}">
 
+  <!-- 폼 제출용 정보 -->
+  <label for="inventoryId">inventoryId</label>
+  <input id="inventoryId" type="hidden" th:value="*{inventoryId}">
 
-  <!-- 썸네일 이미지 -->
+  <label for="username"></label>
+  <input id="username" type="hidden" th:value="${#authentication.principal.username}">
+
   <div>
     <strong>썸네일:</strong>
     <br>
@@ -81,8 +85,16 @@
     <br>
     <input id="purchaseBtn" type="submit" value="구매하기"/>
   </form>
-  <button id="test" type="button">테스트버튼</button>
-  <button id="cart" type="button" onclick="location.href='/login'">장바구니에 담기</button>
+
+  <input type="hidden" th:field="*{inventoryId}">
+
+  <form id="addToCart" th:action="@{/users/carts/add}" th:method="post">
+    <button id="addCartBtn" type="submit">장바구니에 담기</button>
+    <input id="formEmail" type="hidden" name="email">
+    <input id="formInventoryId" type="hidden" name="inventoryId">
+    <input id="formQuantity" type="hidden" name="quantity">
+  </form>
+
   <button id="back" type="button" onclick="location.href='/login'">뒤로가기</button>
 
 
@@ -144,11 +156,20 @@
         alert("주문 수량이 재고보다 많습니다.");
         return;
       }
+
       event.target.submit();
     });
 
 
-   // 버튼 클릭 시 api 호출해서 정보 갱신하기
+    // 장바구니 버튼 클릭 시 필요 데이터 전송
+    // 이메일, inventoryId, quantity
+    document.getElementById("addToCart").addEventListener("submit", function () {
+
+      this.querySelector("input[name='email']").value = document.getElementById("username").value;
+      this.querySelector("input[name='inventoryId']").value = document.getElementById("inventoryId").value;
+      this.querySelector("input[name='quantity']").value = parseInt(document.getElementById("quantity").value);
+    });
+
   </script>
 </div>
 </body>

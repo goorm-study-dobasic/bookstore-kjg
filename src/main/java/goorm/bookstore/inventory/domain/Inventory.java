@@ -33,6 +33,8 @@ public class Inventory {
     private String lastModifiedBy;
     private String title;
     private String contents;
+
+    @Column(columnDefinition = "TEXT")
     private String url;
     private String isbn;
     private LocalDateTime datetime; // 출판일

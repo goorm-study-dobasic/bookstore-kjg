@@ -13,8 +13,20 @@
     <p th:text="|마일리지 : *{mileage}|"></p>
 </div>
 
+<div>
 <input type="button" onclick="location.href='/users/edit'" value="개인정보수정">
+</div>
+<div>
 <input type="button" onclick="location.href='/users/deliveryaddressinfo'" value="배송지 관리">
+</div>
+
+<div>
+    <input type="button" onclick="location.href='/users/carts'" value="장바구니">
+</div>
+
+<div>
+    <input type="button" onclick="location.href='/users/deliveryaddressinfo'" value="주문내역">
+</div>
 <form id="logoutForm" th:action="@{/logout}" th:method="post">
     <button id="logoutBtn" type="submit">로그아웃</button>
 </form>

@@ -1,5 +1,7 @@
 package goorm.bookstore.inventory.dto;
 
+import goorm.bookstore.cart.domain.Cart;
+import goorm.bookstore.inventory.domain.Inventory;
 import goorm.bookstore.inventory.domain.InventoryStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class InventoryForUserDto {
+
 
     private Long inventoryId;
     private String title;
@@ -24,4 +27,8 @@ public class InventoryForUserDto {
     private String thumbnail;
     private InventoryStatus status;
     private int quantity;
+
+    public static InventoryForUserDto InventoryForUserDtoFromCart(Cart cart) {
+        return Inventory.getInventoryUserDto(cart.getInventory());
+    }
 }
